@@ -199,7 +199,7 @@ class ReziApiService extends Component
         }
     
         $entry->setFieldValues($fields);
-        $entry->enabled = true;
+        //$entry->enabled = true;
 
         if (Craft::$app->elements->saveElement($entry)) {
             return $entry;
@@ -207,7 +207,52 @@ class ReziApiService extends Component
             throw new \Exception("Couldn't save new entry " . print_r($entry->getErrors(), true));
         }
     }
+    
+    public function disableAged($sectionId, $reziFullRoleId, $uniqueIdField){
+        //1: Get all entries that are LIVE
+        $entry = Entry::find()
+            ->sectionId($sectionId)
+            //Michael - start here
+            ->status(null)
+            ->all();
+        //file_put_contents( __DIR__ . '/allEntries.json' , json_encode($entry));
+        /*** Turn off OR on any according to Rezi ***/
+        // 1: Get all unique (role) IDs of current craft entries
+        $allReturnedUniqueID = [];
+        foreach($entry as $currentEntry){
+            array_push($allReturnedUniqueID, $currentEntry->getFieldValue('uniqueId'));
+        }
+        file_put_contents( __DIR__ . '/allProps.json' , json_encode($allReturnedUniqueID));
 
+        //2: Get all unique IDs returned by Rezi
+        $allReziUniqueId = [];
+        foreach ($reziFullRoleId as $currentReziRole){
+            array_push($allReziUniqueId, $currentReziRole['RoleId']);
+        }
+        file_put_contents( __DIR__ . '/allReziActiveProps.json' , json_encode($allReziUniqueId));
+
+        
+        $entriesUpdated = [];
+        //3: Compare all IDs to list that you want live -> make all on that list live.
+        foreach($entry as $currentEntry){
+            if (in_array($currentEntry->getFieldValue('uniqueId'), $allReziUniqueId)){
+                //Change the entry to enabled, save the entry
+                $currentEntry->enabled = 1;
+
+                if (Craft::$app->elements->saveElement($currentEntry)) {
+                    array_push($entriesUpdated, $currentEntry) ;
+                    
+                    return $currentEntry;
+                } else {
+                    throw new \Exception("Couldn't save new entry " . print_r($currentEntry->getErrors(), true));
+                }
+            } else {
+                //If its not on the list, make sure it is NOT enabled
+                $currentEntry->enabled = 0;
+            }    
+        }          
+    }
+    
     public function catTest()
     {
         $entry = Entry::find()
