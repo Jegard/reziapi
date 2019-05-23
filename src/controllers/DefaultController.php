@@ -143,7 +143,7 @@ class DefaultController extends Controller
         // d($allProps[0]->status);
         foreach($allProps as $prop){
             // $prop->status = 'disabled';
-            $prop->enabled = false;
+            //$prop->enabled = false;
             Craft::$app->elements->saveElement($prop);
         }
 
