@@ -117,6 +117,7 @@ class ReziApiTask extends BaseJob
             $this->setProgress($queue, $key / count($propIds));
         }
         file_put_contents( __DIR__ . '/fullresult.json' , json_encode($props) );
+        ReziApi::$plugin->reziApiService->disableAged($sectionId, $props, $uniqueIdField);
     }
 
     // Protected Methods
