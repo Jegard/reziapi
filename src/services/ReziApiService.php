@@ -299,6 +299,25 @@ class ReziApiService extends Component
                     file_put_contents(__DIR__ . '/features.json', json_encode($features));
                     $fields[$key] = $featureCatIds;
                     break;
+               case 'Descriptions->Features (Category)->string':
+                    $featuresString = '';
+                    foreach ($property['Descriptions'] as $desc) {
+                        if ($desc['Name'] == 'Features' || $desc['Name'] == 'Feature Description') {
+                            foreach ($desc['Features'] as $feature) {
+                                $featuresString .= $feature['Feature'];
+                                $featuresString .='*|*';
+                            }
+                        }
+                        file_put_contents(__DIR__ . '/featuresString.txt', json_encode($featuresString));
+                        // if ($desc['Name'] == 'Feature Description') {
+                        //     foreach ($desc['Features'] as $feature) {
+                        //         $featureCatIds = array_merge($featureCatIds, $this->prepareCategory($entryFields, $key, $feature['Feature']));
+                        //         array_push($features, $feature['Feature']);
+                        //     }
+                        // }
+                    }
+                    $fields[$key] = $featuresString;
+                    break;
                 case 'Documents':
                     $imageIds = $this->getReziDocuments($property['Documents']);
                     $fields[$key] = $imageIds;
