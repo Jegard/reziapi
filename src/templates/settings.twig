@@ -1,0 +1,26 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Rezi API plugin for Craft CMS 3.x
+ *
+ * Rezi API Settings.twig
+ *
+ * @author    Luca Jegard
+ * @copyright Copyright (c) 2018 Luca Jegard
+ * @link      https://github.com/Jegard
+ * @package   ReziApi
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("lucajegard\\reziapi\\assetbundles\\reziapi\\ReziApiAsset") %}
+
+{{ forms.textField({
+    label: 'Some Field',
+    instructions: 'Enter some setting here.',
+    id: 'someAttribute',
+    name: 'someAttribute',
+    value: settings['someAttribute']})
+}}

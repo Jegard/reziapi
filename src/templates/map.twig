@@ -1,0 +1,864 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("lucajegard\\reziapi\\assetbundles\\reziapi\\ReziApiAsset") %}
+{% do view.registerAssetBundle("lucajegard\\reziapi\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{# Link for the ? icon at the bottom of the page #}
+{% set docsUrl = "https://github.com/Jegard/rezi-api/blob/master/README.md" %}
+
+{# The title of this CP section #}
+{% set title = "Rezi API" %}
+
+{# The URL to this plugin's base CP section #}
+{% set pluginCpUrl = url('rezi-api') %}
+
+{% set branchName = craft.request.getParam('branchName', '') %}
+{% set sectionId = craft.request.getParam('sectionId', '') %}
+{% set branchId = craft.request.getParam('branchId', '') %}
+{% set section = craft.sections.getSectionById(sectionId) %}
+{% set uniqueIdField = craft.request.getParam('uniqueIdField', '') %}
+
+{% set crumbs = [
+    { label: "Rezi Api"|t('app'), url: url('rezi-api') },
+    { label: "Edit mapping"|t('app'), url: url('rezi-api/map?branchName=' ~ branchName ~ '&sectionId=' ~ sectionId ~ '&branchId=' ~ branchId ) }
+] %}
+
+{% macro select(value, branchId) %}
+<div class="select">
+    <select data-selected-value="{{ craft.reziApi.getMapping(branchId)[value] is defined ? craft.reziApi.getMapping(branchId)[value] : '' }}" name="mapping[{{ value }}]">
+        <option>Dont import</options>
+        <option value="RoleId">RoleId</option>
+        <option value="PropertyId">PropertyId</option>
+
+        {# Property style #}
+        <optgroup label="PropertyStyle">
+            <option value="PropertyStyle->Id">Id</option>
+            <option value="PropertyStyle->Name">Name</option>
+            <option value="PropertyStyle->SystemName">SystemName</option>
+        </optgroup>
+
+        <optgroup label="Address">
+            <option value="Address->OrganizationName">OrganizationName</option>
+            <option value="Address->Number">Number</option>
+            <option value="Address->BuildingName">BuildingName</option>
+            <option value="Address->Street">Street</option>
+            <option value="Address->Town">Town</option>
+            <option value="Address->Locality">Locality</option>
+            <option value="Locality (category)">Locality (category)</option>
+            <option value="Address->County">County</option>
+            <option value="Address->Postcode">Postcode</option>
+            <option value="Address->Location->Latitude">Latitude</option>
+            <option value="Address->Location->Longitude">Longitude</option>
+            <option value="Address->Location->Altitude">Altitude</option>
+        </optgroup>
+        
+        <optgroup label="RoomCountsDescription">
+            <option value="RoomCountsDescription->Bedrooms">Bedrooms</option>
+            <option value="RoomCountsDescription->Bathrooms">Bathrooms</option>
+            <option value="RoomCountsDescription->Receptions">Receptions</option>
+            <option value="RoomCountsDescription->Others">Others</option>
+            <option value="RoomCountsDescription->DescriptionType->DisplayName">DescriptionType->DisplayName</option>
+            <option value="RoomCountsDescription->DescriptionType->SystemName">DescriptionType->SystemName</option>
+            <option value="RoomCountsDescription->Name">Name</option>
+            <option value="RoomCountsDescription->Notes">Notes</option>
+        </optgroup>
+
+        <optgroup label="AmenityDescription">
+            <option value="AmenityDescription->ParkingSpaces">ParkingSpaces</option>
+            <option value="AmenityDescription->Gardens">Gardens</option>
+            <option value="AmenityDescription->Garages">Garages</option>
+            <option value="AmenityDescription->Acreage">Acreage</option>
+            <option value="AmenityDescription->AcreageMeasurementUnitType">AcreageMeasurementUnitType</option>
+            <option value="AmenityDescription->DescriptionType->DisplayName">DescriptionType->DisplayName</option>
+            <option value="AmenityDescription->DescriptionType->SystemName">DescriptionType->SystemName</option>
+            <option value="AmenityDescription->Name">Name</option>
+            <option value="AmenityDescription->Notes">Notes</option>
+        </optgroup>
+
+        <optgroup label="BranchDetails">
+            <option value="BranchDetails->Id">Id</option>
+            <option value="BranchDetails->Name">Name</option>
+            <option value="BranchDetails->Description">Description</option>
+            <option value="BranchDetails->ContactDetails">ContactDetails</option>
+            {# TODO branch address #}
+        </optgroup>
+
+        <optgroup label="PropertyType">
+            <option value="PropertyType->DisplayName">DisplayName</option>
+            <option value="PropertyType->SystemName">SystemName</option>
+        </optgroup>
+
+        <option value="Images">Images</option>
+
+        <option value="Flags (category)">Flags (category)</option>
+
+        <option value="PropertyType (Category)">PropertyType (Category)</option>
+        
+        <option value="SummaryTextDescription">SummaryTextDescription</option>
+
+        <optgroup label="RoleType">
+            <option value="RoleType->DisplayName">DisplayName</option>
+            <option value="RoleType->SystemName">SystemName</option>
+            <option value="RoleType (category)">RoleType (category)</option>
+        </optgroup>
+
+        {# TODO Flags #}
+
+        <option value="DateInstructed">DateInstructed</option>
+        <option value="LastUpdated">LastUpdated</option>
+        <option value="ClosingDate">ClosingDate</option>
+
+        <optgroup label="Price">
+            <option value="Price->PriceValue">PriceValue</option>
+            <option value="Price->CurrencyCode">CurrencyCode</option>
+            <option value="Price->PriceType">PriceType</option>
+            <option value="Price->PriceQualifierType">PriceQualifierType</option>
+            <option value="Price->PriceText">PriceText</option>
+
+        </optgroup>
+        
+        <option value="Documents">Documents</option>
+
+        {# TODO Fees #}
+        
+        <optgroup label="RoleStatus">
+            <option value="RoleStatus->DisplayName">DisplayName</option>
+            <option value="RoleStatus->SystemName">SystemName</option>
+        </optgroup>
+
+        <optgroup label="Descriptions">
+            <option value="Descriptions->PropertyType->DisplayName">PropertyType->DisplayName</option>
+            <option value="Descriptions->PropertyType->SystemName">PropertyType->SystemName</option>
+            <option value="Descriptions->StyleType->DisplayName">StyleType->DisplayName</option>
+            <option value="Descriptions->StyleType->SystemName">StyleType->SystemName</option>
+
+            <option value="Descriptions->Bedrooms">Bedrooms</option>
+            <option value="Descriptions->Bathrooms">Bathrooms</option>
+            <option value="Descriptions->Receptions">Receptions</option>
+            <option value="Descriptions->Others">Others</option>
+            <option value="Descriptions->Gardens">Gardens</option>
+            <option value="Pets">Pets</option>
+            <option value="Descriptions->ParkingSpaces">ParkingSpaces</option>
+            <option value="Descriptions->Garages">Garages</option>
+            <option value="Descriptions->Acreage">Acreage</option>
+            <option value="Descriptions->Features (Category)">Features (Category)</option>
+            <option value="Descriptions->Features (Category)->string">Features String</option>
+            <option value="Descriptions->Text">Text (SummaryText)</option>
+            <option value="Text (Main Marketing)">Text (Main Marketing)</option>
+        </optgroup>
+
+        {# TODO Rooms #}
+
+    </select>
+</div>
+{% endmacro %}
+
+{% import _self as macros %}
+
+{% set content %}
+
+
+<div class="pane">
+    <h2>Field mapping for {{ branchName }}</h2>
+    {% set fields = craft.sections.getSectionById(sectionId).getEntryTypes()[0].getFieldLayout().getFields() %}
+    {% set types = craft.sections.getSectionById(sectionId).getEntryTypes() %}
+    <form method="get" action="{{ siteUrl }}actions/rezi-api/default/update-branch-mapping">
+        <input name="branchId" type="hidden" value="{{ branchId }}">
+        {{ getCsrfInput() }}
+        <div class="field">
+            <div style="margin: 40px 0" class="heading">
+                <label class="required">
+                Unique Id field
+                </label>
+                <div class="instructions">
+                    <p>This field is required to make sure properties dont get duplicated, must be a textfield</p>
+                </div>
+                <div class="select" style="margin-top: 20px">
+                    <select required data-selected-value="{{ uniqueIdField }}" name="uniqueIdField">
+                        <option disabled>Choose unique field</option>
+                        {% for field in fields %}
+                        <option value="{{ field.handle }}">{{ field.name }}</option>
+                        {% endfor %}
+                    <select>
+                </div>
+            </div>
+        </div>
+        <table class="data fullwidth">
+            <thead>
+                <th>Craft Field</th>
+                <th>Rezi Field</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>title</td>
+                    <td>
+                        {{ macros.select('title', branchId) }}
+                    </td>
+                </tr>
+                {% for field in fields %}
+                <tr>
+                    <td>
+                        {{ field.handle }}
+                    </td>
+
+                    <td width="250">
+                        {{ macros.select( field.handle, branchId) }}
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+        <a href="{{ siteUrl }}admin/rezi-api" class="btn" style="margin-top: 14px; font-size: 11px;">Back</a>
+        <button type="submit" href="#" style="margin-top: 14px; font-size: 11px; float: right" class="btn submit">Save</button>
+
+
+    
+    </form>
+    <hr>
+    <p style="text-align: left; margin-bottom: 0">
+        <a href="" class="go show-example">Show example feed</a>
+    </p>
+    <pre class="json" style="display: none">
+{
+    &#x22;RoleId&#x22;: 14105,
+    &#x22;PropertyId&#x22;: 1702,
+    &#x22;PropertyStyle&#x22;: {
+        &#x22;Id&#x22;: 1115,
+        &#x22;Name&#x22;: &#x22;19th Century&#x22;,
+        &#x22;SystemName&#x22;: &#x22;NineteenthCentury&#x22;
+    },
+    &#x22;Address&#x22;: {
+        &#x22;OrganizationName&#x22;: &#x22;&#x22;,
+        &#x22;Number&#x22;: &#x22;89&#x22;,
+        &#x22;BuildingName&#x22;: &#x22;&#x22;,
+        &#x22;Street&#x22;: &#x22;Graig Road&#x22;,
+        &#x22;Town&#x22;: &#x22;Swansea&#x22;,
+        &#x22;Locality&#x22;: &#x22;Pontardawe&#x22;,
+        &#x22;County&#x22;: &#x22;West Glamorgan&#x22;,
+        &#x22;Postcode&#x22;: &#x22;SA8 3DS&#x22;,
+        &#x22;Location&#x22;: {
+            &#x22;Latitude&#x22;: 51.7217064087,
+            &#x22;Longitude&#x22;: -3.8315057575,
+            &#x22;Altitude&#x22;: 0
+        }
+    },
+    &#x22;RoomCountsDescription&#x22;: {
+        &#x22;Bedrooms&#x22;: 3,
+        &#x22;Bathrooms&#x22;: 1,
+        &#x22;Receptions&#x22;: 1,
+        &#x22;Others&#x22;: 0,
+        &#x22;DescriptionType&#x22;: {
+            &#x22;DisplayName&#x22;: &#x22;Room Count&#x22;,
+            &#x22;SystemName&#x22;: &#x22;RoomCount&#x22;
+        },
+        &#x22;Name&#x22;: null,
+        &#x22;Notes&#x22;: null
+    },
+    &#x22;AmenityDescription&#x22;: {
+        &#x22;Gardens&#x22;: 2,
+        &#x22;ParkingSpaces&#x22;: 2,
+        &#x22;Garages&#x22;: 1,
+        &#x22;Acreage&#x22;: 0,
+        &#x22;AcreageMeasurementUnitType&#x22;: null,
+        &#x22;DescriptionType&#x22;: {
+            &#x22;DisplayName&#x22;: &#x22;Amenity&#x22;,
+            &#x22;SystemName&#x22;: &#x22;Amenity&#x22;
+        },
+        &#x22;Name&#x22;: null,
+        &#x22;Notes&#x22;: null
+    },
+    &#x22;BranchDetails&#x22;: {
+        &#x22;Id&#x22;: 7601,
+        &#x22;Name&#x22;: &#x22;Freds Branch&#x22;,
+        &#x22;Description&#x22;: null,
+        &#x22;ContactDetails&#x22;: {
+            &#x22;Addresses&#x22;: [
+                {
+                    &#x22;AddressType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Primary&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Primary&#x22;
+                    },
+                    &#x22;Address&#x22;: {
+                        &#x22;OrganizationName&#x22;: &#x22;Dezrez Services Ltd&#x22;,
+                        &#x22;Number&#x22;: &#x22;&#x22;,
+                        &#x22;BuildingName&#x22;: &#x22;Ethos&#x22;,
+                        &#x22;Street&#x22;: &#x22;Kings Road&#x22;,
+                        &#x22;Town&#x22;: &#x22;Swansea&#x22;,
+                        &#x22;Locality&#x22;: &#x22;&#x22;,
+                        &#x22;County&#x22;: &#x22;West Glamorgan&#x22;,
+                        &#x22;Postcode&#x22;: &#x22;SA1 8AS&#x22;,
+                        &#x22;Location&#x22;: null
+                    },
+                    &#x22;ContactOrder&#x22;: 0
+                }
+            ],
+            &#x22;ContactItems&#x22;: []
+        }
+    },
+    &#x22;PropertyType&#x22;: {
+        &#x22;DisplayName&#x22;: &#x22;Semi-Detached House&#x22;,
+        &#x22;SystemName&#x22;: &#x22;SemiDetachedHouse&#x22;
+    },
+    &#x22;Tags&#x22;: [],
+    &#x22;Images&#x22;: [
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8302,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8302.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8303,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8303.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8304,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8304.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8305,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8305.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8306,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8306.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8307,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8307.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8308,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8308.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8309,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8309.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8310,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8310.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8502,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8502.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8503,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8503.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        },
+        {
+            &#x22;Order&#x22;: 0,
+            &#x22;IsPrimaryImage&#x22;: false,
+            &#x22;Id&#x22;: 8504,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8504.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Photo&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Photo&#x22;
+            }
+        }
+    ],
+    &#x22;SummaryTextDescription&#x22;: &#x22;&#x3C;p&#x3E;A semi detached house located in a pleasant position in the sought after residential area of Gellinudd on the outskirts of Pontardawe. The modernised interior boasts a fitted kitchen/diner with integral appliances, large 4 piece family bathroom and spacious lounge. Externally the property has off road parking, patio and large private decked area with views over the garden and surrounding area. Pontardawe town can be found a short drive away where all your local amenities can be found along with local schools and leisure facilities.&#x3C;/p&#x3E;&#x22;,
+    &#x22;RoleType&#x22;: {
+        &#x22;DisplayName&#x22;: &#x22;Selling&#x22;,
+        &#x22;SystemName&#x22;: &#x22;Selling&#x22;
+    },
+    &#x22;Flags&#x22;: [
+        {
+            &#x22;DisplayName&#x22;: &#x22;On Market&#x22;,
+            &#x22;SystemName&#x22;: &#x22;OnMarket&#x22;
+        },
+        {
+            &#x22;DisplayName&#x22;: &#x22;Approved For Marketing on Websites&#x22;,
+            &#x22;SystemName&#x22;: &#x22;ApprovedForMarketingWebsite&#x22;
+        },
+        {
+            &#x22;DisplayName&#x22;: &#x22;Approved For Marketing on Portals&#x22;,
+            &#x22;SystemName&#x22;: &#x22;ApprovedForMarketingPortals&#x22;
+        },
+        {
+            &#x22;DisplayName&#x22;: &#x22;Approved For Marketing on Printed Media&#x22;,
+            &#x22;SystemName&#x22;: &#x22;ApprovedForMarketingPrint&#x22;
+        }
+    ],
+    &#x22;RoleStatus&#x22;: {
+        &#x22;DisplayName&#x22;: &#x22;Instruction to Sell&#x22;,
+        &#x22;SystemName&#x22;: &#x22;InstructionToSell&#x22;
+    },
+    &#x22;EPC&#x22;: {
+        &#x22;EPCType&#x22;: null,
+        &#x22;EERCurrent&#x22;: 1,
+        &#x22;EERPotential&#x22;: 1,
+        &#x22;EIRCurrent&#x22;: 1,
+        &#x22;EIRPotential&#x22;: 1,
+        &#x22;Image&#x22;: null
+    },
+    &#x22;DateInstructed&#x22;: &#x22;2015-06-04T08:41:34Z&#x22;,
+    &#x22;LastUpdated&#x22;: &#x22;2017-01-10T20:39:46Z&#x22;,
+    &#x22;ClosingDate&#x22;: null,
+    &#x22;Price&#x22;: {
+        &#x22;PriceValue&#x22;: 185000,
+        &#x22;CurrencyCode&#x22;: &#x22;GBP&#x22;,
+        &#x22;PriceType&#x22;: null,
+        &#x22;PriceQualifierType&#x22;: null,
+        &#x22;PriceText&#x22;: &#x22;&#x22;
+    },
+    &#x22;ViewPoints&#x22;: [],
+    &#x22;OwningTeam&#x22;: {
+        &#x22;Name&#x22;: &#x22;Freds Branch&#x22;,
+        &#x22;Title&#x22;: null,
+        &#x22;Email&#x22;: null,
+        &#x22;Phone&#x22;: null
+    },
+    &#x22;Documents&#x22;: [
+        {
+            &#x22;Id&#x22;: 8315,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8315.jpg&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Image&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Image&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Floorplan&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Floorplan&#x22;
+            }
+        },
+        {
+            &#x22;Id&#x22;: 8203,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/8203.pdf&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Document&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Document&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Brochure&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Brochure&#x22;
+            }
+        },
+        {
+            &#x22;Id&#x22;: 87802,
+            &#x22;Url&#x22;: &#x22;https://docs.dezrez.com/2/dezrezcorelive/public/87802.pdf&#x22;,
+            &#x22;DocumentType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Document&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Document&#x22;
+            },
+            &#x22;DocumentSubType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Brochure&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Brochure&#x22;
+            }
+        }
+    ],
+    &#x22;Fees&#x22;: [
+        {
+            &#x22;Name&#x22;: &#x22;Sale charged at special offer rate&#x22;,
+            &#x22;FeeValueType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Percentage&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Percentage&#x22;
+            },
+            &#x22;FeeCategoryType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Commission&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Commission&#x22;
+            },
+            &#x22;FeeChargeType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Applicable&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Applicable&#x22;
+            },
+            &#x22;FeeLiabilityType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Vendor&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Vendor&#x22;
+            },
+            &#x22;FeeFrequency&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Flat Price&#x22;,
+                &#x22;SystemName&#x22;: &#x22;FlatPrice&#x22;
+            },
+            &#x22;ApplyTax&#x22;: false,
+            &#x22;VatValue&#x22;: 0,
+            &#x22;DefaultValue&#x22;: 1,
+            &#x22;ScaleableFees&#x22;: [],
+            &#x22;Notes&#x22;: null,
+            &#x22;TransactionType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Sales&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Sales&#x22;
+            }
+        }
+    ],
+    &#x22;Descriptions&#x22;: [
+        {
+            &#x22;PropertyType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Semi-Detached House&#x22;,
+                &#x22;SystemName&#x22;: &#x22;SemiDetachedHouse&#x22;
+            },
+            &#x22;StyleType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;19th Century&#x22;,
+                &#x22;SystemName&#x22;: &#x22;NineteenthCentury&#x22;
+            },
+            &#x22;LeaseType&#x22;: null,
+            &#x22;AgeType&#x22;: null,
+            &#x22;DescriptionType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Style and Age&#x22;,
+                &#x22;SystemName&#x22;: &#x22;StyleAge&#x22;
+            },
+            &#x22;Name&#x22;: null,
+            &#x22;Notes&#x22;: null
+        },
+        {
+            &#x22;Bedrooms&#x22;: 3,
+            &#x22;Bathrooms&#x22;: 1,
+            &#x22;Receptions&#x22;: 1,
+            &#x22;Others&#x22;: 0,
+            &#x22;DescriptionType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Room Count&#x22;,
+                &#x22;SystemName&#x22;: &#x22;RoomCount&#x22;
+            },
+            &#x22;Name&#x22;: null,
+            &#x22;Notes&#x22;: null
+        },
+        {
+            &#x22;Gardens&#x22;: 2,
+            &#x22;ParkingSpaces&#x22;: 2,
+            &#x22;Garages&#x22;: 1,
+            &#x22;Acreage&#x22;: 0,
+            &#x22;AcreageMeasurementUnitType&#x22;: null,
+            &#x22;DescriptionType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Amenity&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Amenity&#x22;
+            },
+            &#x22;Name&#x22;: null,
+            &#x22;Notes&#x22;: null
+        },
+        {
+            &#x22;Features&#x22;: [
+                {
+                    &#x22;Order&#x22;: 1,
+                    &#x22;Feature&#x22;: &#x22;Semi Detached House &#x22;
+                },
+                {
+                    &#x22;Order&#x22;: 2,
+                    &#x22;Feature&#x22;: &#x22;3 Double Bedrooms &#x22;
+                },
+                {
+                    &#x22;Order&#x22;: 3,
+                    &#x22;Feature&#x22;: &#x22;Luxury 4 Piece Bathroom Suite &#x22;
+                },
+                {
+                    &#x22;Order&#x22;: 4,
+                    &#x22;Feature&#x22;: &#x22;Modern Fitted &#x22;
+                },
+                {
+                    &#x22;Order&#x22;: 5,
+                    &#x22;Feature&#x22;: &#x22;Kitchen/Diner &#x22;
+                },
+                {
+                    &#x22;Order&#x22;: 6,
+                    &#x22;Feature&#x22;: &#x22;Off Road Parking &#x22;
+                },
+                {
+                    &#x22;Order&#x22;: 7,
+                    &#x22;Feature&#x22;: &#x22;Large Decked Area&#x22;
+                }
+            ],
+            &#x22;DescriptionType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Feature&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Feature&#x22;
+            },
+            &#x22;Name&#x22;: &#x22;Features&#x22;,
+            &#x22;Notes&#x22;: null
+        },
+        {
+            &#x22;Text&#x22;: &#x22;&#x3C;p&#x3E;A semi detached house located in a pleasant position in the sought after residential area of Gellinudd on the outskirts of Pontardawe. The modernised interior boasts a fitted kitchen/diner with integral appliances, large 4 piece family bathroom and spacious lounge. Externally the property has off road parking, patio and large private decked area with views over the garden and surrounding area. Pontardawe town can be found a short drive away where all your local amenities can be found along with local schools and leisure facilities.&#x3C;/p&#x3E;&#x22;,
+            &#x22;DescriptionType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;SummaryText&#x22;,
+                &#x22;SystemName&#x22;: &#x22;SummaryText&#x22;
+            },
+            &#x22;Name&#x22;: &#x22;Main Marketing&#x22;,
+            &#x22;Notes&#x22;: null
+        },
+        {
+            &#x22;Text&#x22;: &#x22;&#x3C;p&#x3E;A semi detached house located in a pleasant position in the sought after residential area of Gellinudd on the outskirts of Pontardawe. The modernised interior boasts a fitted kitchen/diner with integral appliances, large 4 piece family bathroom and spacious lounge. Externally the property has off road parking, patio and large private decked area with views over the garden and surrounding area. Pontardawe town can be found a short drive away where all your local amenities can be found along with local schools and leisure facilities.&#x3C;/p&#x3E;&#x22;,
+            &#x22;DescriptionType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Text&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Text&#x22;
+            },
+            &#x22;Name&#x22;: &#x22;Main Marketing&#x22;,
+            &#x22;Notes&#x22;: null
+        },
+        {
+            &#x22;Rooms&#x22;: [
+                {
+                    &#x22;Order&#x22;: 0,
+                    &#x22;Name&#x22;: &#x22;GROUND FLOOR&#x22;,
+                    &#x22;Text&#x22;: &#x22;&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Floor&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Floor&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 1,
+                    &#x22;Name&#x22;: &#x22;Entrance Hall&#x22;,
+                    &#x22;Text&#x22;: &#x22;Double glazed door to side, tiled floor, radiator, phone point, stairs to first floor.&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 2,
+                    &#x22;Name&#x22;: &#x22;Lounge (20&#x27; 5\&#x22; x 10&#x27; 6\&#x22; or 6.23m x 3.20m)&#x22;,
+                    &#x22;Text&#x22;: &#x22;Double glazed French doors to front and window to side, Oak flooring, 2 radiators, gas fire with feature surround, T.V. point.&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 3,
+                    &#x22;Name&#x22;: &#x22;Kitchen/Diner (15&#x27; 5\&#x22; x 9&#x27; 4\&#x22; or 4.71m x 2.84m)&#x22;,
+                    &#x22;Text&#x22;: &#x22;Double glazed French doors and window to rear, modern fitted kitchen with range of wall and base units, 1 1/2 bowl ceramic sink unit, tiled floor, integrated gas hob, oven, grill with extractor over, fridge/freezer, plumbing for dishwasher.&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 4,
+                    &#x22;Name&#x22;: &#x22;FIRST FLOOR&#x22;,
+                    &#x22;Text&#x22;: &#x22;&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Floor&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Floor&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 5,
+                    &#x22;Name&#x22;: &#x22;Bedroom 1 (13&#x27; 10\&#x22; x 9&#x27; 4\&#x22; or 4.22m x 2.84m)&#x22;,
+                    &#x22;Text&#x22;: &#x22;Double glazed window to front and side, radiator, airing cupboard housing gas boiler.&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 6,
+                    &#x22;Name&#x22;: &#x22;Bedroom 2 (11&#x27; 7\&#x22; x 10&#x27; 10\&#x22; or 3.54m x 3.30m)&#x22;,
+                    &#x22;Text&#x22;: &#x22;Double glazed window to rear, radiator.&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 7,
+                    &#x22;Name&#x22;: &#x22;Bedroom 3 (9&#x27; 5\&#x22; x 7&#x27; 6\&#x22; or 2.87m x 2.28m)&#x22;,
+                    &#x22;Text&#x22;: &#x22;Double glazed window to side, radiator.\n&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 8,
+                    &#x22;Name&#x22;: &#x22;Family Bathroom (16&#x27; 4\&#x22; x 7&#x27; 6\&#x22; or 4.99m x 2.29m)&#x22;,
+                    &#x22;Text&#x22;: &#x22;Double glazed window to rear, 4 piece suite comprising corner shower unit with &#x27;Rain dance&#x27; shower head and body wash shower attachment, W.C., pedestal wash hand basin, panel bath with chrome mixer taps and shower attachment, chrome heated towel rail, tiled floor and part tiled walls, radiator.&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 9,
+                    &#x22;Name&#x22;: &#x22;Externally&#x22;,
+                    &#x22;Text&#x22;: &#x22;Off road parking to front, patio area, timber shed, lighting. To the rear there is a large decked area with surrounding views. Lower garden area with mature trees and nature garden.&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                },
+                {
+                    &#x22;Order&#x22;: 10,
+                    &#x22;Name&#x22;: &#x22;Directions&#x22;,
+                    &#x22;Text&#x22;: &#x22;From our Pontardawe office take a left onto Tawe Terrace, take a right, at roundabout take 1st exit, at next take 2nd exit onto Graig Road and take a left into the pull in at the top of the hill where the property cane be found set back from the road.&#x22;,
+                    &#x22;Images&#x22;: [],
+                    &#x22;RoomDescriptionType&#x22;: {
+                        &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                        &#x22;SystemName&#x22;: &#x22;Room&#x22;
+                    }
+                }
+            ],
+            &#x22;DescriptionType&#x22;: {
+                &#x22;DisplayName&#x22;: &#x22;Room&#x22;,
+                &#x22;SystemName&#x22;: &#x22;Room&#x22;
+            },
+            &#x22;Name&#x22;: null,
+            &#x22;Notes&#x22;: null
+        }
+    ]
+}
+    </pre>
+</div>
+
+<style>
+    .mid-pad {
+        padding: 20px;
+    }
+    .text-center {
+        text-align: center;
+    }
+    #content {
+        background-color: #F2F7FA !important;
+    }
+    .flex1 {
+        flex: 1;
+    }
+    .flex {
+        display: flex;
+    }
+</style>
+
+
+{% set js %}
+
+$('.show-example').click(function(e){
+    e.preventDefault();
+    $('pre').slideToggle();
+});
+
+$('select').each(function(){
+    var selectedValue = $(this).attr('data-selected-value');
+    console.log( selectedValue );
+    {# $(this).val( selectedValue ); #}
+    var options = $(this).find('option');
+    options.each(function(){
+        if( $(this).val() == selectedValue ){
+            $(this).attr('selected','selected');
+        }
+    });
+});
+
+{% endset %}
+{% includeJs js %}
+{% endset %}

@@ -1,0 +1,167 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Rezi API plugin for Craft CMS 3.x
+ *
+ * Rezi API index.twig
+ *
+ * @author    Luca Jegard
+ * @copyright Copyright (c) 2018 Luca Jegard
+ * @link      https://github.com/Jegard
+ * @package   ReziApi
+ * @since     1.0.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("lucajegard\\reziapi\\assetbundles\\reziapi\\ReziApiAsset") %}
+{% do view.registerAssetBundle("lucajegard\\reziapi\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{# Link for the ? icon at the bottom of the page #}
+{% set docsUrl = "https://github.com/Jegard/rezi-api/blob/master/README.md" %}
+
+{# The title of this CP section #}
+{% set title = "Rezi API" %}
+
+{# The URL to this plugin's base CP section #}
+{% set pluginCpUrl = url('rezi-api') %}
+
+
+
+{# The content of the CP Section#}
+{% set content %}
+    <h2>API Links v1</h2>
+    <div class="pane">
+        <h2>Connected branches</h2>
+        {% set branches = craft.reziApi.getBranch() %}
+        {% if branches | length == 0 %}
+            <p class="text-center">No branches connected</p>
+        {% else %}
+
+            <table class="data fullwidth">
+                <thead>
+                    <th>Branch name</th>
+                    <th>Last updated</th>
+                    <th>Field Mapping</th>
+                    <th>Update</th>
+                </thead>
+                <tbody>
+                {% for branch in branches %}
+                <tr>
+                    <td>{{ branch.branchName }}</td>
+                    <td>{{ branch.dateUpdated | date('d M h:i a') }}</td>
+
+                    <td>
+                        <a href="{{ siteUrl }}admin/rezi-api/map?branchName={{ branch.branchName | url_encode }}&sectionId={{ branch.sectionId }}&branchId={{ branch.id }}&uniqueIdField={{ branch.uniqueIdField }}" style="font-size: 11px;" type="submit" class="btn">Edit Mapping</a>
+                    </td>
+
+                    <td >
+                        <a href="#/" class="update-link" data-icon="settings" style="font-size: 14px;"> Update link</a>
+                    </td>
+
+                    <td>
+                        <form action="{{ siteUrl }}actions/rezi-api/default/update-branch">
+                            {{ getCsrfInput() }}
+                            <input type="hidden" name="branchId" value="{{ branch.id }}">
+                            <input type="hidden" name="uniqueIdField" value="{{ branch.uniqueIdField }}">
+                            <input type="hidden" name="branchName" value="{{ branch.branchName }}">
+                            <input type="hidden" name="sectionId" value="{{ branch.sectionId }}">
+                            <button type="submit" class="btn submit">Update branch</button>
+                        </form>
+                    </td>
+
+
+                    <td width="60">
+                        <form action="{{ siteUrl }}actions/rezi-api/default/delete-branch">
+                            {{ getCsrfInput() }}
+                            <input type="hidden" name="branchId" value="{{ branch.id }}">
+                            <button type="submit" class="btn">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
+    </div>
+
+    <div class="pane">
+        <h2>Connect a new Branch</h2>
+        <form method="get" action="{{ siteUrl }}actions/rezi-api/default/create-new-branch" class="flex">
+            {{ getCsrfInput() }}
+            <div class="input flex1">
+                <input autocomplete="off" required type="text" name="branchName" placeholder="Branch Name" class="text fullwidth">
+            </div>
+            
+            <div class="input flex1">
+                <input autocomplete="off" required type="text" name="apiKey" placeholder="Rezi API key" class="text fullwidth">
+            </div>
+
+            <div class="input">
+                {% set sections = craft.sections.getAllSections() %}
+                <div class="select">
+                    <select required name="sectionId">
+                        <option disabled>Select Section</option>
+                        {% for section in sections if section.type == "channel" %}
+                        <option value="{{ section.id }}">{{ section.handle }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <input type="submit" class="btn submit" value="Save">
+        </form>
+    </div>
+    <style>
+        .mid-pad {
+            padding: 20px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        #content {
+            background-color: #F2F7FA !important;
+        }
+        .flex1 {
+            flex: 1;
+        }
+        .flex {
+            display: flex;
+        }
+    </style>
+{% set myJs %}
+$('.update-link').click(function(){
+    var form = $(this).parent().next().find('form');
+    var serial = $('input[name!=CRAFT_CSRF_TOKEN]', form).serialize();
+    var params = serial;
+    var link = form.attr('action');
+    var fullLink = link + '?' + params;
+
+    copyStringToClipboard(fullLink);
+    $(this).parent().html('Copied to clipboard');
+    console.log( fullLink );
+});
+function copyStringToClipboard (str) {
+   // Create new element
+   var el = document.createElement('textarea');
+   // Set value (string to be copied)
+   el.value = str;
+   // Set non-editable to avoid focus and move outside of view
+   el.setAttribute('readonly', '');
+   el.style = {position: 'absolute', left: '-9999px'};
+   document.body.appendChild(el);
+   // Select text inside element
+   el.select();
+   // Copy text to clipboard
+   document.execCommand('copy');
+   // Remove temporary element
+   document.body.removeChild(el);
+}
+{% endset %}
+
+{% includeJs myJs %}
+
+{% endset %}

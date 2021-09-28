@@ -1,0 +1,43 @@
+{
+    "name": "lucajegard/rezi-api",
+    "description": "An integration with dezrez cloud based estate agency software",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "rezi api"
+    ],
+    "support": {
+        "docs": "https://github.com/Jegard/rezi-api/blob/master/README.md",
+        "issues": "https://github.com/Jegard/rezi-api/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luca Jegard",
+            "homepage": "https://github.com/Jegard"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "lucajegard\\reziapi\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Rezi API",
+        "handle": "rezi-api",
+        "hasCpSettings": true,
+        "hasCpSection": true,
+        "changelogUrl": "https://raw.githubusercontent.com/Jegard/rezi-api/master/CHANGELOG.md",
+        "components": {
+            "reziApiService": "lucajegard\\reziapi\\services\\ReziApiService"
+        },
+        "class": "lucajegard\\reziapi\\ReziApi"
+    }
+}

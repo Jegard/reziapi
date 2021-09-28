@@ -1,0 +1,597 @@
+{
+    "RoleId": 14105,
+    "PropertyId": 1702,
+    "PropertyStyle": {
+        "Id": 1115,
+        "Name": "19th Century",
+        "SystemName": "NineteenthCentury"
+    },
+    "Address": {
+        "OrganizationName": "",
+        "Number": "89",
+        "BuildingName": "",
+        "Street": "Graig Road",
+        "Town": "Swansea",
+        "Locality": "Pontardawe",
+        "County": "West Glamorgan",
+        "Postcode": "SA8 3DS",
+        "Location": {
+            "Latitude": 51.7217064087,
+            "Longitude": -3.8315057575,
+            "Altitude": 0
+        }
+    },
+    "RoomCountsDescription": {
+        "Bedrooms": 3,
+        "Bathrooms": 1,
+        "Receptions": 1,
+        "Others": 0,
+        "DescriptionType": {
+            "DisplayName": "Room Count",
+            "SystemName": "RoomCount"
+        },
+        "Name": null,
+        "Notes": null
+    },
+    "AmenityDescription": {
+        "Gardens": 2,
+        "ParkingSpaces": 2,
+        "Garages": 1,
+        "Acreage": 0,
+        "AcreageMeasurementUnitType": null,
+        "DescriptionType": {
+            "DisplayName": "Amenity",
+            "SystemName": "Amenity"
+        },
+        "Name": null,
+        "Notes": null
+    },
+    "BranchDetails": {
+        "Id": 7601,
+        "Name": "Freds Branch",
+        "Description": null,
+        "ContactDetails": {
+            "Addresses": [
+                {
+                    "AddressType": {
+                        "DisplayName": "Primary",
+                        "SystemName": "Primary"
+                    },
+                    "Address": {
+                        "OrganizationName": "Dezrez Services Ltd",
+                        "Number": "",
+                        "BuildingName": "Ethos",
+                        "Street": "Kings Road",
+                        "Town": "Swansea",
+                        "Locality": "",
+                        "County": "West Glamorgan",
+                        "Postcode": "SA1 8AS",
+                        "Location": null
+                    },
+                    "ContactOrder": 0
+                }
+            ],
+            "ContactItems": []
+        }
+    },
+    "PropertyType": {
+        "DisplayName": "Semi-Detached House",
+        "SystemName": "SemiDetachedHouse"
+    },
+    "Tags": [],
+    "Images": [
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8302,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8302.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8303,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8303.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8304,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8304.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8305,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8305.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8306,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8306.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8307,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8307.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8308,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8308.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8309,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8309.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8310,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8310.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8502,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8502.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8503,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8503.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        },
+        {
+            "Order": 0,
+            "IsPrimaryImage": false,
+            "Id": 8504,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8504.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Photo",
+                "SystemName": "Photo"
+            }
+        }
+    ],
+    "SummaryTextDescription": "<p>A semi detached house located in a pleasant position in the sought after residential area of Gellinudd on the outskirts of Pontardawe. The modernised interior boasts a fitted kitchen/diner with integral appliances, large 4 piece family bathroom and spacious lounge. Externally the property has off road parking, patio and large private decked area with views over the garden and surrounding area. Pontardawe town can be found a short drive away where all your local amenities can be found along with local schools and leisure facilities.</p>",
+    "RoleType": {
+        "DisplayName": "Selling",
+        "SystemName": "Selling"
+    },
+    "Flags": [
+        {
+            "DisplayName": "On Market",
+            "SystemName": "OnMarket"
+        },
+        {
+            "DisplayName": "Approved For Marketing on Websites",
+            "SystemName": "ApprovedForMarketingWebsite"
+        },
+        {
+            "DisplayName": "Approved For Marketing on Portals",
+            "SystemName": "ApprovedForMarketingPortals"
+        },
+        {
+            "DisplayName": "Approved For Marketing on Printed Media",
+            "SystemName": "ApprovedForMarketingPrint"
+        }
+    ],
+    "RoleStatus": {
+        "DisplayName": "Instruction to Sell",
+        "SystemName": "InstructionToSell"
+    },
+    "EPC": {
+        "EPCType": null,
+        "EERCurrent": 1,
+        "EERPotential": 1,
+        "EIRCurrent": 1,
+        "EIRPotential": 1,
+        "Image": null
+    },
+    "DateInstructed": "2015-06-04T08:41:34Z",
+    "LastUpdated": "2017-01-10T20:39:46Z",
+    "ClosingDate": null,
+    "Price": {
+        "PriceValue": 185000,
+        "CurrencyCode": "GBP",
+        "PriceType": null,
+        "PriceQualifierType": null,
+        "PriceText": ""
+    },
+    "ViewPoints": [],
+    "OwningTeam": {
+        "Name": "Freds Branch",
+        "Title": null,
+        "Email": null,
+        "Phone": null
+    },
+    "Documents": [
+        {
+            "Id": 8315,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8315.jpg",
+            "DocumentType": {
+                "DisplayName": "Image",
+                "SystemName": "Image"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Floorplan",
+                "SystemName": "Floorplan"
+            }
+        },
+        {
+            "Id": 8203,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/8203.pdf",
+            "DocumentType": {
+                "DisplayName": "Document",
+                "SystemName": "Document"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Brochure",
+                "SystemName": "Brochure"
+            }
+        },
+        {
+            "Id": 87802,
+            "Url": "https://docs.dezrez.com/2/dezrezcorelive/public/87802.pdf",
+            "DocumentType": {
+                "DisplayName": "Document",
+                "SystemName": "Document"
+            },
+            "DocumentSubType": {
+                "DisplayName": "Brochure",
+                "SystemName": "Brochure"
+            }
+        }
+    ],
+    "Fees": [
+        {
+            "Name": "Sale charged at special offer rate",
+            "FeeValueType": {
+                "DisplayName": "Percentage",
+                "SystemName": "Percentage"
+            },
+            "FeeCategoryType": {
+                "DisplayName": "Commission",
+                "SystemName": "Commission"
+            },
+            "FeeChargeType": {
+                "DisplayName": "Applicable",
+                "SystemName": "Applicable"
+            },
+            "FeeLiabilityType": {
+                "DisplayName": "Vendor",
+                "SystemName": "Vendor"
+            },
+            "FeeFrequency": {
+                "DisplayName": "Flat Price",
+                "SystemName": "FlatPrice"
+            },
+            "ApplyTax": false,
+            "VatValue": 0,
+            "DefaultValue": 1,
+            "ScaleableFees": [],
+            "Notes": null,
+            "TransactionType": {
+                "DisplayName": "Sales",
+                "SystemName": "Sales"
+            }
+        }
+    ],
+    "Descriptions": [
+        {
+            "PropertyType": {
+                "DisplayName": "Semi-Detached House",
+                "SystemName": "SemiDetachedHouse"
+            },
+            "StyleType": {
+                "DisplayName": "19th Century",
+                "SystemName": "NineteenthCentury"
+            },
+            "LeaseType": null,
+            "AgeType": null,
+            "DescriptionType": {
+                "DisplayName": "Style and Age",
+                "SystemName": "StyleAge"
+            },
+            "Name": null,
+            "Notes": null
+        },
+        {
+            "Bedrooms": 3,
+            "Bathrooms": 1,
+            "Receptions": 1,
+            "Others": 0,
+            "DescriptionType": {
+                "DisplayName": "Room Count",
+                "SystemName": "RoomCount"
+            },
+            "Name": null,
+            "Notes": null
+        },
+        {
+            "Gardens": 2,
+            "ParkingSpaces": 2,
+            "Garages": 1,
+            "Acreage": 0,
+            "AcreageMeasurementUnitType": null,
+            "DescriptionType": {
+                "DisplayName": "Amenity",
+                "SystemName": "Amenity"
+            },
+            "Name": null,
+            "Notes": null
+        },
+        {
+            "Features": [
+                {
+                    "Order": 1,
+                    "Feature": "Semi Detached House "
+                },
+                {
+                    "Order": 2,
+                    "Feature": "3 Double Bedrooms "
+                },
+                {
+                    "Order": 3,
+                    "Feature": "Luxury 4 Piece Bathroom Suite "
+                },
+                {
+                    "Order": 4,
+                    "Feature": "Modern Fitted "
+                },
+                {
+                    "Order": 5,
+                    "Feature": "Kitchen/Diner "
+                },
+                {
+                    "Order": 6,
+                    "Feature": "Off Road Parking "
+                },
+                {
+                    "Order": 7,
+                    "Feature": "Large Decked Area"
+                }
+            ],
+            "DescriptionType": {
+                "DisplayName": "Feature",
+                "SystemName": "Feature"
+            },
+            "Name": "Features",
+            "Notes": null
+        },
+        {
+            "Text": "<p>A semi detached house located in a pleasant position in the sought after residential area of Gellinudd on the outskirts of Pontardawe. The modernised interior boasts a fitted kitchen/diner with integral appliances, large 4 piece family bathroom and spacious lounge. Externally the property has off road parking, patio and large private decked area with views over the garden and surrounding area. Pontardawe town can be found a short drive away where all your local amenities can be found along with local schools and leisure facilities.</p>",
+            "DescriptionType": {
+                "DisplayName": "SummaryText",
+                "SystemName": "SummaryText"
+            },
+            "Name": "Main Marketing",
+            "Notes": null
+        },
+        {
+            "Text": "<p>A semi detached house located in a pleasant position in the sought after residential area of Gellinudd on the outskirts of Pontardawe. The modernised interior boasts a fitted kitchen/diner with integral appliances, large 4 piece family bathroom and spacious lounge. Externally the property has off road parking, patio and large private decked area with views over the garden and surrounding area. Pontardawe town can be found a short drive away where all your local amenities can be found along with local schools and leisure facilities.</p>",
+            "DescriptionType": {
+                "DisplayName": "Text",
+                "SystemName": "Text"
+            },
+            "Name": "Main Marketing",
+            "Notes": null
+        },
+        {
+            "Rooms": [
+                {
+                    "Order": 0,
+                    "Name": "GROUND FLOOR",
+                    "Text": "",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Floor",
+                        "SystemName": "Floor"
+                    }
+                },
+                {
+                    "Order": 1,
+                    "Name": "Entrance Hall",
+                    "Text": "Double glazed door to side, tiled floor, radiator, phone point, stairs to first floor.",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                },
+                {
+                    "Order": 2,
+                    "Name": "Lounge (20' 5\" x 10' 6\" or 6.23m x 3.20m)",
+                    "Text": "Double glazed French doors to front and window to side, Oak flooring, 2 radiators, gas fire with feature surround, T.V. point.",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                },
+                {
+                    "Order": 3,
+                    "Name": "Kitchen/Diner (15' 5\" x 9' 4\" or 4.71m x 2.84m)",
+                    "Text": "Double glazed French doors and window to rear, modern fitted kitchen with range of wall and base units, 1 1/2 bowl ceramic sink unit, tiled floor, integrated gas hob, oven, grill with extractor over, fridge/freezer, plumbing for dishwasher.",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                },
+                {
+                    "Order": 4,
+                    "Name": "FIRST FLOOR",
+                    "Text": "",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Floor",
+                        "SystemName": "Floor"
+                    }
+                },
+                {
+                    "Order": 5,
+                    "Name": "Bedroom 1 (13' 10\" x 9' 4\" or 4.22m x 2.84m)",
+                    "Text": "Double glazed window to front and side, radiator, airing cupboard housing gas boiler.",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                },
+                {
+                    "Order": 6,
+                    "Name": "Bedroom 2 (11' 7\" x 10' 10\" or 3.54m x 3.30m)",
+                    "Text": "Double glazed window to rear, radiator.",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                },
+                {
+                    "Order": 7,
+                    "Name": "Bedroom 3 (9' 5\" x 7' 6\" or 2.87m x 2.28m)",
+                    "Text": "Double glazed window to side, radiator.\n",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                },
+                {
+                    "Order": 8,
+                    "Name": "Family Bathroom (16' 4\" x 7' 6\" or 4.99m x 2.29m)",
+                    "Text": "Double glazed window to rear, 4 piece suite comprising corner shower unit with 'Rain dance' shower head and body wash shower attachment, W.C., pedestal wash hand basin, panel bath with chrome mixer taps and shower attachment, chrome heated towel rail, tiled floor and part tiled walls, radiator.",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                },
+                {
+                    "Order": 9,
+                    "Name": "Externally",
+                    "Text": "Off road parking to front, patio area, timber shed, lighting. To the rear there is a large decked area with surrounding views. Lower garden area with mature trees and nature garden.",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                },
+                {
+                    "Order": 10,
+                    "Name": "Directions",
+                    "Text": "From our Pontardawe office take a left onto Tawe Terrace, take a right, at roundabout take 1st exit, at next take 2nd exit onto Graig Road and take a left into the pull in at the top of the hill where the property cane be found set back from the road.",
+                    "Images": [],
+                    "RoomDescriptionType": {
+                        "DisplayName": "Room",
+                        "SystemName": "Room"
+                    }
+                }
+            ],
+            "DescriptionType": {
+                "DisplayName": "Room",
+                "SystemName": "Room"
+            },
+            "Name": null,
+            "Notes": null
+        }
+    ]
+}
