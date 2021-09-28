@@ -25,202 +25,195 @@
 ] %}
 
 {% macro select(value, branchId) %}
-<div class="select">
-    <select data-selected-value="{{ craft.reziApi.getMapping(branchId)[value] is defined ? craft.reziApi.getMapping(branchId)[value] : '' }}" name="mapping[{{ value }}]">
-        <option>Dont import</options>
-        <option value="RoleId">RoleId</option>
-        <option value="PropertyId">PropertyId</option>
+	<div class="select">
+		<select data-selected-value="{{ craft.reziApi.getMapping(branchId)[value] is defined ? craft.reziApi.getMapping(branchId)[value] : '' }}" name="mapping[{{ value }}]">
+			<option>Dont import</option>
+		</options>
+		<option value="RoleId">RoleId</option>
+		<option value="PropertyId">PropertyId</option>
 
-        {# Property style #}
-        <optgroup label="PropertyStyle">
-            <option value="PropertyStyle->Id">Id</option>
-            <option value="PropertyStyle->Name">Name</option>
-            <option value="PropertyStyle->SystemName">SystemName</option>
-        </optgroup>
+		{# Property style #}
+		<optgroup label="PropertyStyle">
+			<option value="PropertyStyle->Id">Id</option>
+			<option value="PropertyStyle->Name">Name</option>
+			<option value="PropertyStyle->SystemName">SystemName</option>
+		</optgroup>
 
-        <optgroup label="Address">
-            <option value="Address->OrganizationName">OrganizationName</option>
-            <option value="Address->Number">Number</option>
-            <option value="Address->BuildingName">BuildingName</option>
-            <option value="Address->Street">Street</option>
-            <option value="Address->Town">Town</option>
-            <option value="Address->Locality">Locality</option>
-            <option value="Locality (category)">Locality (category)</option>
-            <option value="Address->County">County</option>
-            <option value="Address->Postcode">Postcode</option>
-            <option value="Address->Location->Latitude">Latitude</option>
-            <option value="Address->Location->Longitude">Longitude</option>
-            <option value="Address->Location->Altitude">Altitude</option>
-        </optgroup>
-        
-        <optgroup label="RoomCountsDescription">
-            <option value="RoomCountsDescription->Bedrooms">Bedrooms</option>
-            <option value="RoomCountsDescription->Bathrooms">Bathrooms</option>
-            <option value="RoomCountsDescription->Receptions">Receptions</option>
-            <option value="RoomCountsDescription->Others">Others</option>
-            <option value="RoomCountsDescription->DescriptionType->DisplayName">DescriptionType->DisplayName</option>
-            <option value="RoomCountsDescription->DescriptionType->SystemName">DescriptionType->SystemName</option>
-            <option value="RoomCountsDescription->Name">Name</option>
-            <option value="RoomCountsDescription->Notes">Notes</option>
-        </optgroup>
+		<optgroup label="Address">
+			<option value="Address->OrganizationName">OrganizationName</option>
+			<option value="Address->Number">Number</option>
+			<option value="Address->BuildingName">BuildingName</option>
+			<option value="Address->Street">Street</option>
+			<option value="Address->Town">Town</option>
+			<option value="Address->Locality">Locality</option>
+			<option value="Locality (category)">Locality (category)</option>
+			<option value="Address->County">County</option>
+			<option value="Address->Postcode">Postcode</option>
+			<option value="Address->Location->Latitude">Latitude</option>
+			<option value="Address->Location->Longitude">Longitude</option>
+			<option value="Address->Location->Altitude">Altitude</option>
+		</optgroup>
 
-        <optgroup label="AmenityDescription">
-            <option value="AmenityDescription->ParkingSpaces">ParkingSpaces</option>
-            <option value="AmenityDescription->Gardens">Gardens</option>
-            <option value="AmenityDescription->Garages">Garages</option>
-            <option value="AmenityDescription->Acreage">Acreage</option>
-            <option value="AmenityDescription->AcreageMeasurementUnitType">AcreageMeasurementUnitType</option>
-            <option value="AmenityDescription->DescriptionType->DisplayName">DescriptionType->DisplayName</option>
-            <option value="AmenityDescription->DescriptionType->SystemName">DescriptionType->SystemName</option>
-            <option value="AmenityDescription->Name">Name</option>
-            <option value="AmenityDescription->Notes">Notes</option>
-        </optgroup>
+		<optgroup label="RoomCountsDescription">
+			<option value="RoomCountsDescription->Bedrooms">Bedrooms</option>
+			<option value="RoomCountsDescription->Bathrooms">Bathrooms</option>
+			<option value="RoomCountsDescription->Receptions">Receptions</option>
+			<option value="RoomCountsDescription->Others">Others</option>
+			<option value="RoomCountsDescription->DescriptionType->DisplayName">DescriptionType->DisplayName</option>
+			<option value="RoomCountsDescription->DescriptionType->SystemName">DescriptionType->SystemName</option>
+			<option value="RoomCountsDescription->Name">Name</option>
+			<option value="RoomCountsDescription->Notes">Notes</option>
+		</optgroup>
 
-        <optgroup label="BranchDetails">
-            <option value="BranchDetails->Id">Id</option>
-            <option value="BranchDetails->Name">Name</option>
-            <option value="BranchDetails->Description">Description</option>
-            <option value="BranchDetails->ContactDetails">ContactDetails</option>
-            {# TODO branch address #}
-        </optgroup>
+		<optgroup label="AmenityDescription">
+			<option value="AmenityDescription->ParkingSpaces">ParkingSpaces</option>
+			<option value="AmenityDescription->Gardens">Gardens</option>
+			<option value="AmenityDescription->Garages">Garages</option>
+			<option value="AmenityDescription->Acreage">Acreage</option>
+			<option value="AmenityDescription->AcreageMeasurementUnitType">AcreageMeasurementUnitType</option>
+			<option value="AmenityDescription->DescriptionType->DisplayName">DescriptionType->DisplayName</option>
+			<option value="AmenityDescription->DescriptionType->SystemName">DescriptionType->SystemName</option>
+			<option value="AmenityDescription->Name">Name</option>
+			<option value="AmenityDescription->Notes">Notes</option>
+		</optgroup>
 
-        <optgroup label="PropertyType">
-            <option value="PropertyType->DisplayName">DisplayName</option>
-            <option value="PropertyType->SystemName">SystemName</option>
-        </optgroup>
+		<optgroup label="BranchDetails">
+			<option value="BranchDetails->Id">Id</option>
+			<option value="BranchDetails->Name">Name</option>
+			<option value="BranchDetails->Description">Description</option>
+			<option value="BranchDetails->ContactDetails">ContactDetails</option>
+			{# TODO branch address #}
+		</optgroup>
 
-        <option value="Images">Images</option>
+		<optgroup label="PropertyType">
+			<option value="PropertyType->DisplayName">DisplayName</option>
+			<option value="PropertyType->SystemName">SystemName</option>
+		</optgroup>
 
-        <option value="Flags (category)">Flags (category)</option>
+		<option value="Images">Images</option>
 
-        <option value="PropertyType (Category)">PropertyType (Category)</option>
-        
-        <option value="SummaryTextDescription">SummaryTextDescription</option>
+		<option value="Flags (category)">Flags (category)</option>
 
-        <optgroup label="RoleType">
-            <option value="RoleType->DisplayName">DisplayName</option>
-            <option value="RoleType->SystemName">SystemName</option>
-            <option value="RoleType (category)">RoleType (category)</option>
-        </optgroup>
+		<option value="PropertyType (Category)">PropertyType (Category)</option>
 
-        {# TODO Flags #}
+		<option value="SummaryTextDescription">SummaryTextDescription</option>
 
-        <option value="DateInstructed">DateInstructed</option>
-        <option value="LastUpdated">LastUpdated</option>
-        <option value="ClosingDate">ClosingDate</option>
+		<optgroup label="RoleType">
+			<option value="RoleType->DisplayName">DisplayName</option>
+			<option value="RoleType->SystemName">SystemName</option>
+			<option value="RoleType (category)">RoleType (category)</option>
+		</optgroup>
 
-        <optgroup label="Price">
-            <option value="Price->PriceValue">PriceValue</option>
-            <option value="Price->CurrencyCode">CurrencyCode</option>
-            <option value="Price->PriceType">PriceType</option>
-            <option value="Price->PriceQualifierType">PriceQualifierType</option>
-            <option value="Price->PriceText">PriceText</option>
+		{# TODO Flags #}
 
-        </optgroup>
-        
-        <option value="Documents">Documents</option>
+		<option value="DateInstructed">DateInstructed</option>
+		<option value="LastUpdated">LastUpdated</option>
+		<option value="ClosingDate">ClosingDate</option>
 
-        {# TODO Fees #}
-        
-        <optgroup label="RoleStatus">
-            <option value="RoleStatus->DisplayName">DisplayName</option>
-            <option value="RoleStatus->SystemName">SystemName</option>
-        </optgroup>
+		<optgroup label="Price">
+			<option value="Price->PriceValue">PriceValue</option>
+			<option value="Price->CurrencyCode">CurrencyCode</option>
+			<option value="Price->PriceType">PriceType</option>
+			<option value="Price->PriceQualifierType">PriceQualifierType</option>
+			<option value="Price->PriceText">PriceText</option>
 
-        <optgroup label="Descriptions">
-            <option value="Descriptions->PropertyType->DisplayName">PropertyType->DisplayName</option>
-            <option value="Descriptions->PropertyType->SystemName">PropertyType->SystemName</option>
-            <option value="Descriptions->StyleType->DisplayName">StyleType->DisplayName</option>
-            <option value="Descriptions->StyleType->SystemName">StyleType->SystemName</option>
+		</optgroup>
 
-            <option value="Descriptions->Bedrooms">Bedrooms</option>
-            <option value="Descriptions->Bathrooms">Bathrooms</option>
-            <option value="Descriptions->Receptions">Receptions</option>
-            <option value="Descriptions->Others">Others</option>
-            <option value="Descriptions->Gardens">Gardens</option>
-            <option value="Pets">Pets</option>
-            <option value="Descriptions->ParkingSpaces">ParkingSpaces</option>
-            <option value="Descriptions->Garages">Garages</option>
-            <option value="Descriptions->Acreage">Acreage</option>
-            <option value="Descriptions->Features (Category)">Features (Category)</option>
-            <option value="Descriptions->Features (Category)->string">Features String</option>
-            <option value="Descriptions->Text">Text (SummaryText)</option>
-            <option value="Text (Main Marketing)">Text (Main Marketing)</option>
-        </optgroup>
+		<option value="Documents">Documents</option>
 
-        {# TODO Rooms #}
+		{# TODO Fees #}
 
-    </select>
-</div>
-{% endmacro %}
+		<optgroup label="RoleStatus">
+			<option value="RoleStatus->DisplayName">DisplayName</option>
+			<option value="RoleStatus->SystemName">SystemName</option>
+		</optgroup>
 
-{% import _self as macros %}
+		<optgroup label="Descriptions">
+			<option value="Descriptions->PropertyType->DisplayName">PropertyType->DisplayName</option>
+			<option value="Descriptions->PropertyType->SystemName">PropertyType->SystemName</option>
+			<option value="Descriptions->StyleType->DisplayName">StyleType->DisplayName</option>
+			<option value="Descriptions->StyleType->SystemName">StyleType->SystemName</option>
 
-{% set content %}
+			<option value="Descriptions->Bedrooms">Bedrooms</option>
+			<option value="Descriptions->Bathrooms">Bathrooms</option>
+			<option value="Descriptions->Receptions">Receptions</option>
+			<option value="Descriptions->Others">Others</option>
+			<option value="Descriptions->Gardens">Gardens</option>
+			<option value="Pets">Pets</option>
+			<option value="Descriptions->ParkingSpaces">ParkingSpaces</option>
+			<option value="Descriptions->Garages">Garages</option>
+			<option value="Descriptions->Acreage">Acreage</option>
+			<option value="Descriptions->Features (Category)">Features (Category)</option>
+			<option value="Descriptions->Features (Category)->string">Features String</option>
+			<option value="Descriptions->Text">Text (SummaryText)</option>
+			<option value="Text (Main Marketing)">Text (Main Marketing)</option>
+		</optgroup>
 
+		{# TODO Rooms #}
 
-<div class="pane">
-    <h2>Field mapping for {{ branchName }}</h2>
-    {% set fields = craft.sections.getSectionById(sectionId).getEntryTypes()[0].getFieldLayout().getFields() %}
-    {% set types = craft.sections.getSectionById(sectionId).getEntryTypes() %}
-    <form method="get" action="{{ siteUrl }}actions/rezi-api/default/update-branch-mapping">
-        <input name="branchId" type="hidden" value="{{ branchId }}">
-        {{ getCsrfInput() }}
-        <div class="field">
-            <div style="margin: 40px 0" class="heading">
-                <label class="required">
-                Unique Id field
-                </label>
-                <div class="instructions">
-                    <p>This field is required to make sure properties dont get duplicated, must be a textfield</p>
-                </div>
-                <div class="select" style="margin-top: 20px">
-                    <select required data-selected-value="{{ uniqueIdField }}" name="uniqueIdField">
-                        <option disabled>Choose unique field</option>
-                        {% for field in fields %}
-                        <option value="{{ field.handle }}">{{ field.name }}</option>
-                        {% endfor %}
-                    <select>
-                </div>
-            </div>
-        </div>
-        <table class="data fullwidth">
-            <thead>
-                <th>Craft Field</th>
-                <th>Rezi Field</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>title</td>
-                    <td>
-                        {{ macros.select('title', branchId) }}
-                    </td>
-                </tr>
-                {% for field in fields %}
-                <tr>
-                    <td>
-                        {{ field.handle }}
-                    </td>
+	</select>
+</div>{% endmacro %}{% import _self as macros %}{% set content %}<div class="pane">
+<h2>Field mapping for
+	{{ branchName }}</h2>
+{% set fields = craft.sections.getSectionById(sectionId).getEntryTypes()[0].getFieldLayout().getFields() %}
+{% set types = craft.sections.getSectionById(sectionId).getEntryTypes() %}
+<form method="get" action="{{ siteUrl }}actions/rezi-api/default/update-branch-mapping">
+	<input name="branchId" type="hidden" value="{{ branchId }}">
+	{{ getCsrfInput() }}
+	<div class="field">
+		<div style="margin: 40px 0" class="heading">
+			<label class="required">
+				Unique Id field
+			</label>
+			<div class="instructions">
+				<p>This field is required to make sure properties dont get duplicated, must be a textfield</p>
+			</div>
+			<div class="select" style="margin-top: 20px">
+				<select required data-selected-value="{{ uniqueIdField }}" name="uniqueIdField">
+					<option disabled>Choose unique field</option>
+					{% for field in fields %}
+						<option value="{{ field.handle }}">{{ field.name }}</option>
+					{% endfor %}
+					<select></div>
+				</div>
+			</div>
+			<table class="data fullwidth">
+				<thead>
+					<th>Craft Field</th>
+					<th>Rezi Field</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td style='border-bottom: 1px solid rgba(51, 64, 77, 0.1)'>title</td>
+						<td style='border-bottom: 1px solid rgba(51, 64, 77, 0.1)'>
+							{{ macros.select('title', branchId) }}
+						</td>
+					</tr>
+					{% for field in fields %}
+						<tr>
+							<td style='border-bottom: 1px solid rgba(51, 64, 77, 0.1)'>
+								{{ field.handle }}
+							</td>
 
-                    <td width="250">
-                        {{ macros.select( field.handle, branchId) }}
-                    </td>
-                </tr>
-                {% endfor %}
-                
-            </tbody>
-        </table>
-        <a href="{{ siteUrl }}admin/rezi-api" class="btn" style="margin-top: 14px; font-size: 11px;">Back</a>
-        <button type="submit" href="#" style="margin-top: 14px; font-size: 11px; float: right" class="btn submit">Save</button>
+							<td width="250" style='border-bottom: 1px solid rgba(51, 64, 77, 0.1);'>
+								{{ macros.select( field.handle, branchId) }}
+							</td>
+						</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+			<a href="{{ siteUrl }}admin/rezi-api" class="btn" style="margin-top: 14px; font-size: 11px;">Back</a>
+			<button type="submit" href="#" style="margin-top: 14px; font-size: 11px; float: right" class="btn submit">Save</button>
 
 
-    
-    </form>
-    <hr>
-    <p style="text-align: left; margin-bottom: 0">
-        <a href="" class="go show-example">Show example feed</a>
-    </p>
-    <pre class="json" style="display: none">
+		</form>
+		<hr>
+		<p style="text-align: left; margin-bottom: 0">
+			<a href="" class="go show-example">Show example feed</a>
+		</p>
+
+		<pre class="json" style="display: none; max-width: 40vw; overflow-x:scroll;">
 {
     &#x22;RoleId&#x22;: 14105,
     &#x22;PropertyId&#x22;: 1702,
@@ -818,47 +811,48 @@
         }
     ]
 }
-    </pre>
-</div>
+</pre>
 
-<style>
-    .mid-pad {
-        padding: 20px;
-    }
-    .text-center {
-        text-align: center;
-    }
-    #content {
-        background-color: #F2F7FA !important;
-    }
-    .flex1 {
-        flex: 1;
-    }
-    .flex {
-        display: flex;
-    }
-</style>
+	</div>
+
+	<style>
+		.mid-pad {
+			padding: 20px;
+		}
+		.text-center {
+			text-align: center;
+		}
+		#content {
+			background-color: #F2F7FA !important;
+		}
+		.flex1 {
+			flex: 1;
+		}
+		.flex {
+			display: flex;
+		}
+	</style>
 
 
-{% set js %}
+	{% set js %}
 
-$('.show-example').click(function(e){
-    e.preventDefault();
-    $('pre').slideToggle();
-});
+	$('.show-example').click(function(e){
+													e.preventDefault();
+													$('pre').slideToggle();
+													});
+													
+													$('select').each(function(){
+													var selectedValue = $(this).attr('data-selected-value');
+													console.log( selectedValue );
+	{# $(this).val( selectedValue ); #}
+	var options = $(this).find('option');
+													options.each(function(){
+													    if( $(this).val() == selectedValue ){
+													        $(this).attr('selected','selected');
+													    }
+													});
+													});
 
-$('select').each(function(){
-    var selectedValue = $(this).attr('data-selected-value');
-    console.log( selectedValue );
-    {# $(this).val( selectedValue ); #}
-    var options = $(this).find('option');
-    options.each(function(){
-        if( $(this).val() == selectedValue ){
-            $(this).attr('selected','selected');
-        }
-    });
-});
-
-{% endset %}
-{% includeJs js %}
-{% endset %}
+	{% endset %}
+	{% includeJs js %}
+	{% endset %}

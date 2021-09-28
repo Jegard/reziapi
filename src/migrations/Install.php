@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Rezi Api plugin for Craft CMS 3.x
  *
@@ -97,7 +98,7 @@ class Install extends Migration
     {
         $tablesCreated = false;
 
-    // reziapi_reziapirecord table
+        // reziapi_reziapirecord table
         $tableSchema = Craft::$app->db->schema->getTableSchema('{{%reziapi_reziapirecord}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
@@ -108,7 +109,7 @@ class Install extends Migration
                     'dateCreated' => $this->dateTime()->notNull(),
                     'dateUpdated' => $this->dateTime()->notNull(),
                     'uid' => $this->uid(),
-                // Custom columns in the table
+                    // Custom columns in the table
                     'siteId' => $this->integer(),
                     'branchName' => $this->string(255)->notNull()->defaultValue(''),
                     'apiKey' => $this->string(1000)->notNull()->defaultValue(''),
@@ -129,15 +130,13 @@ class Install extends Migration
      */
     protected function createIndexes()
     {
-    // reziapi_reziapirecord table
+        // reziapi_reziapirecord table
         $this->createIndex(
             $this->db->getIndexName(
                 '{{%reziapi_reziapirecord}}',
-                'some_field',
                 true
             ),
             '{{%reziapi_reziapirecord}}',
-            'some_field',
             true
         );
         // Additional commands depending on the db driver
@@ -156,7 +155,7 @@ class Install extends Migration
      */
     protected function addForeignKeys()
     {
-    // reziapi_reziapirecord table
+        // reziapi_reziapirecord table
         $this->addForeignKey(
             $this->db->getForeignKeyName('{{%reziapi_reziapirecord}}', 'siteId'),
             '{{%reziapi_reziapirecord}}',
@@ -184,7 +183,7 @@ class Install extends Migration
      */
     protected function removeTables()
     {
-    // reziapi_reziapirecord table
+        // reziapi_reziapirecord table
         $this->dropTableIfExists('{{%reziapi_reziapirecord}}');
     }
 }

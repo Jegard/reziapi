@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Rezi API plugin for Craft CMS 3.x
  *
@@ -79,51 +80,56 @@ class ReziApiTask extends BaseJob
         $branchId = $this->criteria['branchId'];
         $mapping = $this->criteria['mapping'];
         $sectionId = $this->criteria['sectionId'];
-        $uniqueIdField = $this->criteria['uniqueIdField'];        
+        $uniqueIdField = $this->criteria['uniqueIdField'];
 
 
-        while(!$allPropsFound){
+        while (!$allPropsFound) {
             $pageProps = ReziApi::$plugin->reziApiService->searchReziProperties($pageNumber, $branchId);
             $response = json_decode($pageProps['response'], true);
-            
-            
-            if($pageProps['info']['http_code'] == 200){
-                if($response['CurrentCount'] != 0){
-                    
-                    foreach( $response['Collection'] as $prop ){
-                        
-                        if( isset($prop['RoleId']) ){
+
+            // file_put_contents(__DIR__ . '/response.json', json_encode($response));
+
+            if ($pageProps['info']['http_code'] == 401) {
+                throw new \Exception("401 Authentication error, response: " . $response['Message'] ?? '', 1);
+            }
+
+            if ($pageProps['info']['http_code'] == 200) {
+                if ($response['CurrentCount'] != 0) {
+
+                    foreach ($response['Collection'] as $prop) {
+
+                        if (isset($prop['RoleId'])) {
                             // $propIds [] = $prop['RoleId'];
-                            array_push( $propIds, $prop['RoleId'] );
+                            array_push($propIds, $prop['RoleId']);
                         }
                     }
-                }else{
+                } else {
                     $allPropsFound = true;
                 }
-            }else{
+            } else {
                 return false;
             }
             $pageNumber++;
         }
-        
-        foreach($propIds as $key => $id){
+
+        foreach ($propIds as $key => $id) {
             $propertyRequest = ReziApi::$plugin->reziApiService->getFullDetails($id, $branchId);
             $response = json_decode($propertyRequest['response'], true);
-            if($propertyRequest['info']['http_code'] == 200){
-                $props [] = $response;
+            if ($propertyRequest['info']['http_code'] == 200) {
+                $props[] = $response;
                 $updateCraftEntry = ReziApi::$plugin->reziApiService->updateCraftEntry($response, $mapping, $sectionId, $uniqueIdField);
-            }else{
+            } else {
                 return false;
             }
             $this->setProgress($queue, $key / count($propIds));
         }
 
         $allProps = Entry::find()
-        ->sectionId($sectionId)
-        ->status(null)
-        ->all();
+            ->sectionId($sectionId)
+            ->status(null)
+            ->all();
 
-        foreach($allProps as $prop){
+        foreach ($allProps as $prop) {
             $uniqueId = (int)$prop[$uniqueIdField];
             $prop->enabled = in_array($uniqueId, $propIds);
             Craft::$app->elements->saveElement($prop);
